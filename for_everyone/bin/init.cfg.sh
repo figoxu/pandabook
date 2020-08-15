@@ -1,0 +1,1 @@
+cat ./jupyter.cfg > /Users/xujianhui/.jupyter/jupyter_notebook_config.py
