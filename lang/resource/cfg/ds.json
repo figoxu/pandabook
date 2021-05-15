@@ -1,0 +1,3 @@
+{
+  "dev": "postgresql://root:123456@localhost:123456/dev"
+}
