@@ -1,7 +1,9 @@
 import json
 import pandas as pd
+import numpy as np
 from sqlalchemy import create_engine
 import psycopg2
+from abc import ABCMeta, abstractmethod
 
 
 class Pg:
@@ -15,3 +17,18 @@ class Pg:
         connect.dispose()
         return df
 
+    def queryall(self, idSeries, sb, db, eachSize=1000):
+        ids = idSeries.to_numpy()
+        count = int(ids.size / eachSize)
+        subIds = np.array_split(ids, count)
+        df = pd.DataFrame()
+        for v in subIds:
+            tmp = self.query(sb.sql(v.tolist()), db)
+            df=pd.concat([df,tmp])
+        return df
+
+
+class ISubQ(metaclass=ABCMeta):
+    @abstractmethod
+    def sql(self, ids):
+        raise NotImplementedError()
